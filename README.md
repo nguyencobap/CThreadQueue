@@ -36,4 +36,4 @@ Create a function pointer of heavy-task job you want to schedule:
     };
 Post it!
 
-    m_pControlLensThread->Post(f, pHWController);
+    mHandlerThread->Post(f, pHWController);
