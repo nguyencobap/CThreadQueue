@@ -37,4 +37,5 @@ Create a function pointer of heavy-task job you want to schedule:
     };
 Post it!
 
+    //Post the function pointer that created earlier and object that you want to use inside thread.
     mHandlerThread->Post(f, pHWController);
