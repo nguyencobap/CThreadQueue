@@ -49,6 +49,10 @@ public:
     int32_t GetThreadID() {
         return m_threadID;
     };
+
+    int32_t GetNumJobRemaining() {
+        return m_numJobRemaining;
+    };
 private:
     /**
      * Looper thực hiện xử lý runnable post bởi BACThread::Post
@@ -62,4 +66,5 @@ private:
     bool m_destroyThread = false;
     pthread_cond_t m_cv = PTHREAD_COND_INITIALIZER;
     pthread_mutex_t m_mutex = PTHREAD_MUTEX_INITIALIZER;
+    int32_t m_numJobRemaining = 0;
 };

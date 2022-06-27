@@ -28,6 +28,7 @@ void BACThread::Post(FuncPtr funcPtr, void* data)
     Runnable runnable(funcPtr, data);
 
     m_queue.push(runnable);
+    m_numJobRemaining++;
     pthread_cond_signal(&m_cv);
 }
 
@@ -49,6 +50,7 @@ void* BACThread::Process(void *This) {
         {
             runnable.funcPtr(runnable.data);
         }
+        pBACThread->m_numJobRemaining--;
     }
     pthread_exit(NULL);
     pthread_cond_destroy(&pBACThread->m_cv);
