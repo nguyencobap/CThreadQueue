@@ -2,6 +2,10 @@
 
 An implement of **Handler Thread** java-like in C++. 
 
+# Usecases?
+
+Running heavy task whithout blocking your running task.
+
 # How to use?
 Include header:
     
@@ -39,3 +43,15 @@ Post it!
 
     //Post the function pointer that created earlier and object that you want to use inside thread.
     mHandlerThread->Post(f, pHWController);
+
+# Test with example:
+Build:
+
+    cd examples/
+    mkdir build
+    cd build/
+    cmake ..
+    make
+Run:
+    
+    ./cthreadqueue
