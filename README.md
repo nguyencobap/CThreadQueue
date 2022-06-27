@@ -1,6 +1,6 @@
 # What is this?
 
-An implement of **Handler Thread** java-like to C++. 
+An implement of **Handler Thread** java-like in C++. 
 
 # How to use?
 Include header:
@@ -20,6 +20,7 @@ Start it:
 
 Create a function pointer of heavy-task job you want to schedule:
 
+    //Function pointer with input is a void pointer object that use want to use inside thread.
     FuncPtr f = [](void* This) {
         HWController* pController = ((HWController*) This);
         if (!pController)
