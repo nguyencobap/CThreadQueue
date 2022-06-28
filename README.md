@@ -4,7 +4,7 @@ An implement of **Handler Thread** java-like in C++.
 
 # Usecases?
 
-Running heavy task whithout blocking your running task.
+Running heavy task one-by-one whithout blocking your running task.
 
 # How to use?
 Include header:
