@@ -1,6 +1,6 @@
 # What is this?
 
-An implement of **Handler Thread** java-like in C++. 
+An implementation of **Handler Thread** java-like in C++. 
 
 # Usecases?
 
