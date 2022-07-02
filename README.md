@@ -25,24 +25,19 @@ Start it:
 Create a function pointer of heavy-task job you want to schedule:
 
     //Function pointer with input is a void pointer object that use want to use inside thread.
-    FuncPtr f = [](void* This) {
-        HWController* pController = ((HWController*) This);
-        if (!pController)
+    FuncPtr f = [](void* arg) {
+        //Your heavy task
+         int n = *((int*)arg);
+        for(int i = 0; i < n; i++) 
         {
-            LOGE("pController nullptr");
-            return;
+            LOGD("Task running i = %d", i)
         }
-        pController->WaitZoomDoneTimeout(TIME_OUT_MOVE_LENS);
-        
-        MoveZoom(pController->m_requestZoomSpeed, pController->m_requestZoomStep);
-        LOGD("MoveZoom(): speed = %d, step = %d", pController->m_requestZoomSpeed, pController->m_requestZoomStep);
-        
-        pController->MoveFocusToCalibPosition();
     };
 Post it!
 
     //Post the function pointer that created earlier and object that you want to use inside thread.
-    mHandlerThread->Post(f, pHWController);
+    int loop_count = 100000;
+    mHandlerThread->Post(f, &loop_count);
 
 # Test with example:
 Build:
