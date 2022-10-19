@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <queue>
-#include <pthread.h>
+#include <thread>
+#include <mutex>
 
 typedef void (*FuncPtr)(void*);
 
@@ -46,7 +47,7 @@ public:
     /**
      * Lấy thread id
      * */
-    int32_t GetThreadID() {
+    std::thread::id GetThreadID() {
         return m_threadID;
     };
 
@@ -62,9 +63,10 @@ private:
 
     std::queue<Runnable> m_queue;
     const char* THREAD_NAME;
-    pthread_t m_threadID;
+    std::thread m_thread;
+    std::thread::id m_threadID;
     bool m_destroyThread = false;
-    pthread_cond_t m_cv = PTHREAD_COND_INITIALIZER;
-    pthread_mutex_t m_mutex = PTHREAD_MUTEX_INITIALIZER;
+    std::condition_variable m_cv;
+    std::mutex m_mutex;
     int32_t m_numJobRemaining = 0;
 };

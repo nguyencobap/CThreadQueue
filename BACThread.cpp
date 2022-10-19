@@ -15,7 +15,10 @@ BACThread::~BACThread() {
  * @param   void
  * */
 int32_t BACThread::Start() {
-    return pthread_create(&m_threadID, NULL, &BACThread::Process, this);
+    m_thread = std::thread(&BACThread::Process, this);
+    m_thread.detach();
+    m_threadID = m_thread.get_id();
+    return 1;
 }
 
 /**
@@ -29,7 +32,7 @@ void BACThread::Post(FuncPtr funcPtr, void* data)
 
     m_queue.push(runnable);
     m_numJobRemaining++;
-    pthread_cond_signal(&m_cv);
+    m_cv.notify_all();
 }
 
 /**
@@ -40,8 +43,10 @@ void* BACThread::Process(void *This) {
     BACThread* pBACThread = (BACThread*) This;
     while (!pBACThread->m_destroyThread)
     {
-        while (pBACThread->m_queue.empty())
-            pthread_cond_wait(&pBACThread->m_cv, &pBACThread->m_mutex);
+        while (pBACThread->m_queue.empty()) {
+            std::unique_lock<std::mutex> lk(pBACThread->m_mutex);
+            pBACThread->m_cv.wait(lk);
+        }
 
         Runnable runnable = pBACThread->m_queue.front();
         pBACThread->m_queue.pop();
@@ -52,9 +57,7 @@ void* BACThread::Process(void *This) {
         }
         pBACThread->m_numJobRemaining--;
     }
-    pthread_exit(NULL);
-    pthread_cond_destroy(&pBACThread->m_cv);
-    pthread_mutex_destroy(&pBACThread->m_mutex);
+    return This;
 }
 
 /**
