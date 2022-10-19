@@ -18,7 +18,7 @@ int32_t BACThread::Start() {
     m_thread = std::thread(&BACThread::Process, this);
     m_thread.detach();
     m_threadID = m_thread.get_id();
-    return 1;
+    return 0;
 }
 
 /**
